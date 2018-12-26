@@ -432,6 +432,30 @@ DELETE FROM `whitelist_data`;
 /*!40000 ALTER TABLE `whitelist_data` DISABLE KEYS */;
 /*!40000 ALTER TABLE `whitelist_data` ENABLE KEYS */;
 
+-- Dumping structure for trigger ipr_data.account_after_insert
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `account_after_insert` AFTER INSERT ON `account` FOR EACH ROW BEGIN
+
+insert into contact
+set contact.account_id = new.id;
+
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
+-- Dumping structure for trigger ipr_data.upload_data_tgr
+SET @OLDTMP_SQL_MODE=@@SQL_MODE, SQL_MODE='STRICT_TRANS_TABLES,NO_ENGINE_SUBSTITUTION';
+DELIMITER //
+CREATE TRIGGER `upload_data_tgr` AFTER INSERT ON `upload_data` FOR EACH ROW BEGIN
+
+insert into upload_data_action
+set upload_data_action.upload_data_id =  new.id;
+
+END//
+DELIMITER ;
+SET SQL_MODE=@OLDTMP_SQL_MODE;
+
 -- Dumping structure for view ipr_data.app_user_detail_view
 -- Removing temporary table and create final VIEW structure
 DROP TABLE IF EXISTS `app_user_detail_view`;
